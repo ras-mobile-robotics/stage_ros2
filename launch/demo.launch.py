@@ -55,7 +55,7 @@ def generate_launch_description():
     rviz = LaunchConfiguration('rviz')
     declare_rviz_cmd = DeclareLaunchArgument(
         'rviz',
-        default_value='True',
+        default_value='False',
         description='Whether run a rviz')
 
     world = LaunchConfiguration('world')

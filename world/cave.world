@@ -45,7 +45,7 @@ floorplan
   name "cave"
   size [16.000 16.000 0.800]
   pose [0 0 0 0]
-  bitmap "bitmaps/cave.png"
+  bitmap "bitmaps/cave_filled.png"
   gui_move 0
 )
 
@@ -63,8 +63,6 @@ define mount model
   gui_nose 0
 )
 
-# throw in a block
-my_block( pose [ 5 4 0 180.000 ] color "green")
 
 # throw in a robot
 pioneer2dx_with_laser 
@@ -73,4 +71,5 @@ pioneer2dx_with_laser
   name "robot_0"
   color "red" 
   pose [ -7 -7 0 45 ] 
+  drive "diff"
 )

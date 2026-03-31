@@ -13,6 +13,8 @@
 #include <nav_msgs/msg/odometry.hpp>
 #include <stage_ros2/transform_broadcaster.h>
 #include <stage_ros2/static_transform_broadcaster.h>
+#include <tf2/LinearMath/Transform.h>
+#include <tf2/LinearMath/Quaternion.h>
 
 // libstage
 #include <stage.hh>

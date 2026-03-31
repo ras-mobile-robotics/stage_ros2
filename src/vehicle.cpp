@@ -194,19 +194,34 @@ void Vehicle::publish_msg()
 void Vehicle::publish_tf()
 {
 
-  // broadcast odometry transform
-  tf2::Quaternion quaternion = tf2::Quaternion(
+  // Broadcast odom -> base_link
+  tf2::Quaternion q_odom(
       msg_odom_.pose.pose.orientation.x,
       msg_odom_.pose.pose.orientation.y,
       msg_odom_.pose.pose.orientation.z,
       msg_odom_.pose.pose.orientation.w);
-  tf2::Transform transform(quaternion,
+  tf2::Transform t_odom_to_base(q_odom,
                            tf2::Vector3(msg_odom_.pose.pose.position.x, msg_odom_.pose.pose.position.y, 0.0));
   tf_broadcaster_->sendTransform(
       StageNode::create_transform_stamped(
-          transform, node_->sim_time_,
+          t_odom_to_base, node_->sim_time_,
           frame_id_odom_,
           frame_id_base_link_));
+  
+  // Broadcast map -> odom
+  Stg::Pose gpose = positionmodel->GetGlobalPose();
+  tf2::Quaternion q_gt;
+  q_gt.setRPY(0.0, 0.0, gpose.a);
+  tf2::Transform t_map_to_base(q_gt, tf2::Vector3(gpose.x, gpose.y, 0.0));
+
+  // Calculate Map -> Odom = (Map -> Base) * (Odom -> Base)^-1
+  tf2::Transform t_map_to_odom = t_map_to_base * t_odom_to_base.inverse();
+
+  tf_broadcaster_->sendTransform(
+      StageNode::create_transform_stamped(
+          t_map_to_odom, node_->sim_time_,
+          "map",
+          frame_id_odom_));
 }
 
 void Vehicle::check_watchdog_timeout()
