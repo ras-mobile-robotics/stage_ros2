@@ -8,8 +8,8 @@ sudo apt install libfltk1.3-dev ros-jazzy-ackermann-msgs -y
 # Clone repos
 cd <YOUR_ROS2_WORKSPACE>
 cd src
-git clone https://github.com/EcoRobotics-Lab/Stage.git
-git clone https://github.com/EcoRobotics-Lab/stage_ros2.git
+git clone https://github.com/ras-mobile-robotics/Stage.git
+git clone https://github.com/ras-mobile-robotics/stage_ros2.git
 
 # Init and Update rosdep
 sudo rosdep init 
