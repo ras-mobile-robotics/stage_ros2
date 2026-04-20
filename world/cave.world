@@ -5,6 +5,8 @@
 
 include "include/robots.inc"
 
+seed 0  # 0 usually tells Stage to use a random seed from the system clock
+
 # set the resolution of the underlying raytrace model in meters
 resolution 0.02
 
@@ -63,13 +65,54 @@ define mount model
   gui_nose 0
 )
 
+# Add this to the bottom of your .world file
+my_block 
+( 
+  name "tag_1" 
+  color "green" 
+  pose [ -5 -5 0 0 ] 
+  fiducial_return 10  # This is the ID the robot will detect
+)
+
+my_block 
+( 
+  name "tag_2" 
+  color "blue" 
+  pose [ -5 1 0 0 ] 
+  fiducial_return 20  # Another unique ID
+)
+
+my_block 
+( 
+  name "tag_3" 
+  color "blue" 
+  pose [ -2 7.2 0 0 ] 
+  fiducial_return 30  # Another unique ID
+)
+
+my_block 
+( 
+  name "tag_4" 
+  color "blue" 
+  pose [ -1 3.1 0 0 ] 
+  fiducial_return 40  # Another unique ID
+)
+
+my_block 
+( 
+  name "tag_5" 
+  color "blue" 
+  pose [ -1 -1 0 0 ] 
+  fiducial_return 50  # Another unique ID
+)
+
+
 
 # throw in a robot
-pioneer2dx_with_laser 
+pioneer2dx_with_laser_and_fiducial 
 (
-  # can refer to the robot by this name
   name "robot_0"
   color "red" 
-  pose [ -7 -7 0 45 ] 
   drive "diff"
+  pose [ -7 -7 0 90 ] 
 )
