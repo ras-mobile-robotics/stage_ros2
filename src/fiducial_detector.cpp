@@ -90,14 +90,29 @@ void FiducialDetector::publish_msg()
   if (prepare_msg()) {
     msg->header.stamp = vehicle->node()->sim_time_; 
     msg->markers.clear();
+    
+    // Setup Random Number Generator (Standard Normal Distribution)
+    static std::default_random_engine generator;
+    // Set your desired standard deviations here
+    std::normal_distribution<double> range_dist(0.0, 0.1);   // 10cm noise
+    std::normal_distribution<double> bearing_dist(0.0, 0.15); // ~9 degree noise
+
     auto &fiducials = model->GetFiducials();  
     for (const Stg::ModelFiducial::Fiducial &fiducial: fiducials) {
       marker_msgs::msg::Marker marker;
       if(fiducial.id != -1){
         marker.ids.push_back(fiducial.id);
         marker.ids_confidence.push_back(1.0);
-        marker.pose.position.x = fiducial.range * cos(fiducial.bearing);
-        marker.pose.position.y = fiducial.range * sin(fiducial.bearing);
+
+        // --- INJECT NOISE HERE ---
+        double noisy_range = fiducial.range + range_dist(generator);
+        double noisy_bearing = fiducial.bearing + bearing_dist(generator);
+
+        // Use the noisy values for the position calculation
+        marker.pose.position.x = noisy_range * cos(noisy_bearing);
+        marker.pose.position.y = noisy_range * sin(noisy_bearing);
+        // -------------------------
+
         marker.pose.orientation = StageNode::createQuaternionMsgFromYaw(fiducial.geom.a);
       }
       msg->markers.push_back(std::move(marker));

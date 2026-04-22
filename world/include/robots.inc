@@ -11,7 +11,7 @@ define pioneer_base position
   fiducial_return 1             # Seen as "1" fiducial finders
 
   localization "odom"           # Change to "gps" to have impossibly perfect, global odometry 
-  odom_error [ 0.1 0.1 0.0 0.1 ]  # Odometry error or slip in X, Y and Theta  (Uniform random distribution)   
+  odom_error [0.15 0.08 0.0 1.0]  # Odometry error or slip in X, Y, Z and Theta  (Uniform random distribution)   
   # localization_origin [0 0 0 0]   # Start odometry at (0, 0, 0).  By default, this is copied from the model's initial pose
 
   # four DOF kinematics limits

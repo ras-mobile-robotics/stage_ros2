@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <random>
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/transform_stamped.hpp>
